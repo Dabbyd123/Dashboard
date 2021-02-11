@@ -1,0 +1,191 @@
+button.btn {
+    cursor: pointer
+}
+
+button>span:hover {
+    cursor: pointer;
+}
+
+.pane {
+    transform: translate3d(0, 0, 0);
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+a:hover {
+    cursor: pointer;
+}
+
+#schedule-frame {
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    transform: translate3d(0, 0, 0)
+}
+
+#stacked-totals {
+    display: table;
+    box-shadow: 0 0 5px 5px lightgrey
+}
+
+#stacked-totals tr {
+    display: table-cell;
+}
+
+#stacked-totals tr td {
+    display: block;
+}
+
+#bagsProd {
+    background-color: lightgray;
+    border-left: 2px solid black
+}
+
+.green {
+    color: #5bd46d
+}
+
+div.dashboard {
+    background-color: #424242;
+    margin-top: 30px;
+}
+
+.mini-bar {
+    height: 100%;
+    position: sticky;
+    display: flex;
+    justify-self: center;
+    overflow: hidden;
+    flex: 1;
+    align-content: space-around;
+    flex-direction: column;
+    background-color: #555;
+}
+
+.extruder-list {
+    display: grid;
+    text-align: center;
+    font-weight: bold;
+    text-align: center;
+    height: inherit;
+    color: #ddd;
+    text-shadow: #000000 1px 1px 1px;
+    font-size: 20px;
+    position: relative;
+    overflow: hidden;
+    background: #555;
+    border: 1px solid #ddd;
+    box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.3);
+}
+
+.progress-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    text-align: center;
+    font-weight: bold;
+    height: inherit;
+    position: relative;
+    overflow: hidden;
+    background: #555;
+    border: 1px solid #ddd;
+    box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.3);
+}
+
+.progress-bar-header {
+    text-align: center;
+    font-weight: bold;
+    color: #f1f1f1;
+    height: inherit;
+    position: relative;
+    background: #555;
+    border: 1px solid #ddd;
+    box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.3);
+}
+
+#prog-header {
+    font-size: 14px;
+    grid-column: 1/3;
+    justify-self: center;
+    align-self: center;
+    height: inherit;
+}
+
+.progress-bar>.pos-bar {
+    grid-column: 2;
+    grid-row: 1/4;
+    display: block;
+    height: 100%;
+    background-color: rgb(43, 194, 83);
+    background-image: linear-gradient(to top,
+            rgb(43, 194, 83) 37%,
+            rgb(84, 240, 84) 69%);
+    box-shadow:
+        inset 0 2px 9px rgba(255, 255, 255, 0.3),
+        inset 0 -2px 6px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar>.neg-bar {
+    grid-column: 1;
+    grid-row: 1/4;
+    justify-self: right;
+    height: 100%;
+    background-color: #f0a3a3;
+    background-image: linear-gradient(to bottom, #f0a3a3, #f42323);
+    box-shadow:
+        inset 0 2px 9px rgba(255, 255, 255, 0.3),
+        inset 0 -2px 6px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+
+.prog-bar-percentage {
+    grid-column: 1/3;
+    font-size: 18px;
+    display: grid;
+    grid-template-rows: 1fr;
+    align-self: center;
+    justify-content: center;
+    color: #f1f1f1;
+    text-shadow: rgba(0, 0, 0, 0.4) 2px 2px 2px;
+    z-index: 10;
+    justify-self: center;
+    font-weight: bold;
+    position: absolute;
+}
+
+.prog-bags {
+    grid-column: 1/3;
+    display: grid;
+    grid-template-rows: 1fr;
+    align-self: center;
+    justify-content: center;
+    color: #f1f1f1;
+    text-shadow: #555 1px 1px 1px;
+    z-index: 10;
+    justify-self: center;
+    font-weight: bold;
+    position: absolute;
+}
+
+.hidden {
+    display: none;
+}
+
+.dark-bg {
+    background-color: #555
+}
+
+.light-bg {
+    background-color: #FFF;
+}
+
+.total-calc {
+    color: green;
+    font-style: italic;
+}

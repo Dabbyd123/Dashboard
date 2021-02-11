@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../photon/photon-0.1.2-dist/css/photon.css">
+    <link rel="stylesheet" href="../schedule/schedule-style.css">
+    <script src="http://www.w3schools.com/lib/w3data.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['table', 'corechart'] });
+        google.charts.setOnLoadCallback(drawTable);
+
+        // This is the origin data of the pie and table charts
+
+        const spools = [];
+
+        Papa.parse('Spools.csv', {
+            header: true,
+            download: true,
+            complete: function (res) {
+                res.data.map(e => {
+                    spools.push({ WIP_Code: e.WIP_Code, Count: Number(e.Count), Feet: Number(e.Feet), Units: Number(e.Units), Type: e.Type })
+                })
+            }
+        })
+
+
+        function drawTable() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'WIP Code', 'WIP Code');
+            data.addColumn('number', 'Spools on Floor', 'Spools on Floor');
+            data.addColumn('number', 'Spools on Floor (Units)', 'Spools on Floor (Units)');
+            data.addColumn('number', 'Spools on Floor (FT)', 'Spools on Floor (FT)');
+
+
+            spools.map(e => {
+                data.addRow([e.WIP_Code, e.Count, e.Units, e.Feet])
+            })
+
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 2]);
+
+            var table = new google.visualization.Table(document.getElementById('table_div'));
+            table.draw(data, { showRowNumber: true, width: '100%', height: '100%' });
+
+            // set inner height to 20 pixels per row
+            var chartAreaHeight = data.getNumberOfRows() * 20;
+            // add padding to outer height to accomodate title, axis labels, etc
+            var chartHeight = chartAreaHeight + 80;
+            var chart = new google.visualization.BarChart(document.getElementById('chart_sort_div'));
+            chart.draw(view, {
+                height: chartHeight,
+                chartArea: {
+                    height: chartAreaHeight
+                }
+            });
+            google.visualization.events.addListener(table, 'sort',
+                function (event) {
+                    data.sort([{ column: event.column, desc: !event.ascending }]);
+                    chart.draw(view, {
+                        height: chartHeight,
+                        chartArea: {
+                            height: chartAreaHeight
+                        }
+                    });
+                });
+        }
+        window.onload = drawTable;
+        window.onresize = drawTable;
+    </script>
+    <title>Extrusion Dashboard</title>
+</head>
+
+<body>
+    <div class="window">
+        <header class="toolbar toolbar-header">
+            <div class="toolbar-actions">
+                <div class="btn-group padded-vertically-less">
+                    <button class="btn btn-default btn-reload-chart">
+                        <span class="icon icon-ccw"></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+        <div class="window-content">
+            <div class="pane" id="dash-container"
+                style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;">
+                <div id="top-container"
+                    style="grid-row: 1/2; grid-column: 1/3; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; height: 75vh; overflow: hidden;"
+                    class="text-center padded-horizontally-more padded-bottom">
+                    <div id="mixed-chart-container" class="padded-horizontally"
+                        style="grid-column: 1/2; align-self: center; justify-content: center">
+                        <h2>Spool Count and Lines Down MTD</h2>
+                        <canvas id="mixedChart" height="210"></canvas>
+                    </div>
+                    <div id="total-spools-container"
+                        style="grid-column: 2/3; align-self: center; justify-content: center"
+                        class="text-center padded padded-horizontally">
+                        <h2 id="pie-header">Spool Count by Unit Type</h2>
+                        <h4 class="text-center" id="total-spools"></h4>
+                        <canvas id="pieChart" height="185"></canvas>
+                    </div>
+                </div>
+                <div class="padded-more calc-container dark-bg" style="grid-row: 3/4; grid-column: 1/3; ">
+                    <form id="calculator" class="text-center form-group form-control" action="">
+                        <h2 class="h3">Unit Need Calculator</h2>
+                        <label for="bag-need" class="text-big">Units Needed:</label>
+                        <input type="text" id="bag-need" name='bag-need'>
+                        <select name="bag-type" id="bag-type">
+                            <option>GS</option>
+                            <option>GF</option>
+                            <option>QS</option>
+                            <option>QF</option>
+                            <option>HH-GS</option>
+                            <option>HH-GF</option>
+                            <option>HH-QS</option>
+                            <option>HH-QF</option>
+                        </select>
+                        <div class="padded">
+                            <button id="calculate-Units"
+                                class="btn btn-primary btn-large form-actions">Calculate</button>
+                        </div>
+                        <h4 id="days-needed"></h4>
+                    </form>
+                </div>
+                <div style="grid-row: 4/5; grid-column: 1/3; height: 90%; width: 95%; justify-self: center;"
+                    class="text-center padded-vertically">
+                    <h2>Lines Down MTD - Unit Type</h2>
+                    <canvas id="ctxStack" height="130"></canvas>
+                </div>
+                <div style="grid-row: 5/6; grid-column: 1/3;" class="padded-more">
+                    <h4 class="text-center">MTD Units Not Produced Due to Lines Down</h4>
+                    <table id="stacked-totals">
+                        <tbody>
+                            <tr id="dateTR">
+                                <td>Date</td>
+                            </tr>
+                            <tr id="gsTR">
+                                <td>GS</td>
+                            </tr>
+                            <tr id="gfTR">
+                                <td>GF</td>
+                            </tr>
+                            <tr id="qsTR">
+                                <td>QS</td>
+                            </tr>
+                            <tr id="qfTR">
+                                <td>QF</td>
+                            </tr>
+                            <tr id="HHgsTR">
+                                <td>HH-GS</td>
+                            </tr>
+                            <tr id="HHgfTR">
+                                <td>HH-GF</td>
+                            </tr>
+                            <tr id="HHqsTR">
+                                <td>HH-QS</td>
+                            </tr>
+                            <tr id="HHqfTR">
+                                <td>HH-QF</td>
+                            </tr>
+                            <tr id="unitsProd">
+                                <td>Total Units Not Produced</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr style="border-top: 2px solid black">
+                                <td>MTD:</td>
+                            </tr>
+                            <tr id="gsTotal" style="border-top: 2px solid black; background-color: lightgray;">
+                            </tr>
+                            <tr id="gfTotal" style="border-top: 2px solid black; background-color: lightgray;">
+                            </tr>
+                            <tr id="qsTotal" style="border-top: 2px solid black; background-color: lightgray;">
+                            </tr>
+                            <tr id="qfTotal" style="border-top: 2px solid black; background-color: lightgray;">
+                            </tr>
+                            <tr id="HHgsTotal" style="border-top: 2px solid black; background-color: lightgray;">
+                            </tr>
+                            <tr id="HHgfTotal" style="border-top: 2px solid black; background-color: lightgray;">
+                            </tr>
+                            <tr id="HHqsTotal" style="border-top: 2px solid black; background-color: lightgray;">
+                            </tr>
+                            <tr id="HHqfTotal" style="border-top: 2px solid black; background-color: lightgray;">
+                            </tr>
+                            <tr id="unitsProdTotal"
+                                style="border-top: 2px solid black; border-left: 2px solid black; background-color: lightgoldenrodyellow;">
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="dark-bg text-center padded-more"
+                    style="grid-row: 7/8; grid-column: 1/3; width: 100%; height: 100%; justify-items: center">
+                    <div class="padded-more text-center light-bg">
+                        <h2>Weekly Average Extrusion Yield vs MTD</h2>
+                        <canvas id="lineChart" height="130"></canvas>
+                        <div class="dark-bg" style="margin-top: 40px">
+                            <h2 class="text-center padded-top-more pull-20" style="color: #FFF">MTD Extrusion Output
+                                vs Scrap</h2>
+                            <canvas id="paretoLbsChart" height="130"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div style="grid-row: 8/9; grid-column: 1/3; width: 100%; height: 100%; justify-items: center">
+                    <div style="justify-self: center;" class="text-center pull-10">
+                        <h2 class="padded-top-more">Current Spools on the Floor</h2>
+                        <div id="chart_sort_div"></div>
+                        <div id="table_div" class="padded-top"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="./dashboard.js"></script>
+</body>
+
+</html>

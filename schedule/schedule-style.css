@@ -1,0 +1,53 @@
+table {
+    height: 100%;
+    width: 100%;
+}
+
+div.schedule-container {
+    height: 100%;
+    overflow: auto;
+    position: relative
+}
+
+tr>td:first-child {
+    font-weight: bold;
+    font-size: 13px
+}
+
+td {
+    border: 1px solid #ddd;
+}
+
+tr:first-child {
+    font-weight: bold;
+    font-size: 13px
+}
+
+.activeDate {
+    background-color: rgb(255, 255, 0)
+}
+
+.TT {
+    background-color: #fd918d
+}
+
+.MM {
+    background-color: #5bd46d;
+}
+
+.WW {
+    background-color: #6eb4f7;
+}
+
+.AA {
+    background-color: violet;
+}
+
+.HH {
+    background-color: peachpuff;
+}
+
+.line-change {
+    background-color: rgb(152, 169, 189);
+    font-weight: bold;
+}

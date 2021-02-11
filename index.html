@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./photon/photon-0.1.2-dist/css/photon.css">
+    <link rel="stylesheet" href="./schedule/schedule-style.css">
+    <script src="./photon/photon-0.1.2-dist/template-app/js/menu.js"></script>
+    <script src="http://www.w3schools.com/lib/w3data.js"></script>
+    <title>Extrusion Schedule</title>
+</head>
+
+<body>
+    <div class="window">
+
+        <header class="toolbar toolbar-header">
+            <div class="toolbar-actions">
+                <div class="btn-group padded-vertically-less">
+                    <button class="btn btn-default chart-btn">
+                        <span class="icon icon-chart-bar"></span>
+                    </button>
+                    <button class="btn btn-default btn-reload">
+                        <span class="icon icon-ccw"></span>
+                    </button>
+                </div>
+            </div>
+            <h1 class="title progress-header"></h1>
+        </header>
+
+        <div class="window-content">
+
+            <div class="pane-group">
+
+                <div class="pane-one-fourth sidebar hidden">
+                    <button class="pull-right icon-close-tab">
+                        <span class="icon icon-cancel"></span>
+                    </button>
+                    <h3 class="text-center padded-vertically padded-horizontally">Upload New Schedule</h3>
+                    <form class="form-group form-control schedule-upload-form">
+                        <div class="form-group">
+                            <label class="select-file-label" for="">Select a file:</label>
+                            <input class="select-file-input btn btn-form" type="file" accept=".xlsx" />
+                        </div>
+                        <button type="submit" class="text-center
+                             submit-btn btn-form btn btn-primary">Submit</button>
+                        <h1 id="days-needed"></h1>
+                    </form>
+
+                    <div class="text-center">
+                        <h6 id="result" class="toolbar-actions"></h6>
+                    </div>
+                </div>
+
+                <div class="pane-sm extruder-pane mini-bar hidden">
+                    <div class="extruder-list">Line#</div>
+                    <div class="extruder-list">E0</div>
+                    <div class="extruder-list">E1</div>
+                    <div class="extruder-list">E2</div>
+                    <div class="extruder-list">E3</div>
+                    <div class="extruder-list">E4</div>
+                    <div class="extruder-list">E5</div>
+                    <div class="extruder-list">E6</div>
+                    <div class="extruder-list">E7</div>
+                    <div class="extruder-list">E8</div>
+                    <div class="extruder-list">E9</div>
+                    <div class="extruder-list">E10</div>
+                    <div class="extruder-list">E11</div>
+                    <div class="extruder-list">E12</div>
+                    <div class="extruder-list">E14</div>
+                    <div class="extruder-list">E22</div>
+                    <div class="extruder-list">E41</div>
+                    <div class="extruder-list">E42</div>
+                    <div class="extruder-list">E43</div>
+                    <div class="extruder-list">E44</div>
+                </div>
+                <div class="pane schedule-container">
+                    <h3 id="file-not-found" class="hidden"></h3>
+                    <div id="schedule-frame" w3-include-html="./schedule/Extrusion Schedule.html">
+                    </div>
+                </div>
+                <div class="pane-sm progress-pane hidden mini-bar">
+                    <div class="progress-bar-header">
+                        <span id="prog-header">Line Progress <dfn><small>(Days)</small></dfn>
+                    </div>
+                    <div id="E0" class="progress-bar">
+                        <span id="E0" class='neg-bar' style="width: 0"></span>
+                        <span id="E0" class='pos-bar' style="width: 0"></span>
+                        <span id="E0" class="prog-bar-percentage"></span>
+                    </div>
+                    <div id="E1" class="progress-bar">
+                        <span id="E1" style="width: 0" class='neg-bar'></span>
+                        <span id="E1" style="width: 0" class='pos-bar'></span>
+                        <span id="E1" class="prog-bar-percentage"></span>
+                    </div>
+                    <div id="E2" class="progress-bar">
+                        <span id="E2" style="width: 0" class='neg-bar'></span>
+                        <span id="E2" style="width: 0" class='pos-bar'></span>
+                        <span id="E2" class="prog-bar-percentage"></span>
+                    </div>
+                    <div id="E3" class="progress-bar">
+                        <span id="E3" style="width: 0" class='neg-bar'></span>
+                        <span id="E3" style="width: 0" class='pos-bar'></span>
+                        <span id="E3" class="prog-bar-percentage"></span>
+                    </div>
+                    <div id="E4" class="progress-bar">
+                        <span id="E4" style="width: 0" class='neg-bar'></span>
+                        <span id="E4" style="width: 0" class='pos-bar'></span>
+                        <span id="E4" class="prog-bar-percentage"></span>
+                    </div>
+                    <div id="E5" class="progress-bar">
+                        <span id="E5" style="width: 0" class='neg-bar'></span>
+                        <span id="E5" style="width: 0" class='pos-bar'></span>
+                        <span id="E5" class="prog-bar-percentage"></span>
+                    </div>
+                    <div id="E6" class="progress-bar">
+                        <span id="E6" style="width: 0" class='neg-bar'></span>
+                        <span id="E6" style="width: 0" class='pos-bar'></span>
+                        <span id="E6" class="prog-bar-percentage"></span>
+                    </div>
+                    <div id="E7" class="progress-bar">
+                        <span id="E7" style="width: 0" class='neg-bar'></span>
+                        <span id="E7" style="width: 0" class='pos-bar'></span>
+                        <span id="E7" class="prog-bar-percentage"></span>
+                    </div>
+                    <div id="E8" class="progress-bar">
+                        <span id="E8" style="width: 0" class='neg-bar'></span>
+                        <span id="E8" style="width: 0" class='pos-bar'></span>
+                        <span id="E8" class="prog-bar-percentage"></span>
+                    </div>
+                    <div id="E9" class="progress-bar">
+                        <span id="E9" jm fstyle="width: 0" class='neg-bar'></span>
+                        <span id="E9" style="width: 0" class='pos-bar'></span>
+                        <span id="E9" class="prog-bar-percentage"></span>
+                    </div>
+                    <div id="E10" class="progress-bar">
+                        <span id="E10" style="width: 0" class='neg-bar'></span>
+                        <span id="E10" style="width: 0" class='pos-bar'></span>
+                        <span id="E10" class="prog-bar-percentage"></span>
+                    </div>
+                    <div id="E11" class="progress-bar">
+                        <span id="E11" style="width: 0" class='neg-bar'></span>
+                        <span id="E11" style="width: 0" class='pos-bar'></span>
+                        <span id="E11" class="prog-bar-percentage"></span>
+                    </div>
+                    <div id="E12" class="progress-bar">
+                        <span id="E12" style="width: 0" class='neg-bar'></span>
+                        <span id="E12" style="width: 0" class='pos-bar'></span>
+                        <span id="E12" class="prog-bar-percentage"></span>
+
+                    </div>
+                    <div id="E14" class="progress-bar">
+                        <span id="E14" style="width: 0" class='neg-bar'></span>
+                        <span id="E14" style="width: 0" class='pos-bar'></span>
+                        <span id="E14" class="prog-bar-percentage"></span>
+
+                    </div>
+                    <div id="E22" class="progress-bar">
+                        <span id="E22" style="width: 0" class='neg-bar'></span>
+                        <span id="E22" style="width: 0" class='pos-bar'></span>
+                        <span id="E22" class="prog-bar-percentage"></span>
+
+                    </div>
+                    <div id="E41" class="progress-bar">
+                        <span id="E41" style="width: 0" class='neg-bar'></span>
+                        <span id="E41" style="width: 0" class='pos-bar'></span>
+                        <span id="E41" class="prog-bar-percentage"></span>
+
+                    </div>
+                    <div id="E42" class="progress-bar">
+                        <span id="E42" style="width: 0" class='neg-bar'></span>
+                        <span id="E42" style="width: 0" class='pos-bar'></span>
+                        <span id="E42" class="prog-bar-percentage"></span>
+                    </div>
+                    <div id="E43" class="progress-bar">
+                        <span id="E43" style="width: 0" class='neg-bar'></span>
+                        <span id="E43" style="width: 0" class='pos-bar'></span>
+                        <span id="E43" class="prog-bar-percentage"></span>
+                    </div>
+                    <div id="E44" class="progress-bar">
+                        <span id="E44" style="width: 0" class='neg-bar'></span>
+                        <span id="E44" style="width: 0" class='pos-bar'></span>
+                        <span id="E44" class="prog-bar-percentage"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <footer class="toolbar toolbar-footer padded-horizontally-more">
+            <div class="nav-group padded-vertically">
+                <button class="style-btn btn btn-large btn-default">Style</button>
+                <button class="progress-btn btn btn-large btn-default">Week</button>
+                <button class="btn add-file-btn btn-large btn-default pull-right">
+                    <span class="icon icon-plus"></span>
+                </button>
+            </div>
+        </footer>
+
+        <script> w3IncludeHTML(); </script>
+        <script>require("./schedule/schedule.js")</script>
+        <script>require("./main")</script>
+</body>
+
+</html>
